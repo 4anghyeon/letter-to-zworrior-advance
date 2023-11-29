@@ -1,19 +1,19 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {warriors} from '../shared/data';
 import styled from 'styled-components';
 import LetterRow from '../components/Detail/LetterRow';
-import {AlertOption, MAX_FROM_NAME_LENGTH, validation} from '../shared/common';
-import LetterModalContent from '../components/Common/LetterModalContent';
 import {useDispatch, useSelector} from 'react-redux';
-import {addLetter} from '../redux/modules/letters';
 import {showModal} from '../redux/modules/modal';
-import {usePopup} from '../shared/hooks';
+import DetailModal from '../components/Detail/DetailModal';
+import WriteModal from '../components/Detail/WriteModal';
 
 const Detail = () => {
+  const [selectedLetter, setSelectedLetter] = useState({content: ''});
+  const [isWrite, setIsWrite] = useState(false);
+
   const params = useParams();
   const nameRef = useRef(null); // 캐릭터 이름
-  const fromNameRef = useRef(null); // 쓰는 사람 이름
 
   const {name, separatedName, enName} = warriors.find(d => +d.id === +params.id);
   const image = require(`assets/img/${enName.replace(/\s/g, '')}.png`);
@@ -22,40 +22,6 @@ const Detail = () => {
 
   const letters = useSelector(state => state.letters);
   const dispatch = useDispatch();
-  const popup = usePopup();
-
-  // 등록 버튼 이벤트
-  const onClickEnrollButton = () => {
-    const $content = document.getElementById('content');
-    const contentValue = $content.value;
-
-    if (!validation(contentValue, fromNameRef.current.value, popup)) return;
-
-    dispatch(addLetter(name, contentValue, fromNameRef.current.value));
-    dispatch(showModal(null, null, {}, false));
-
-    popup(<div>등록 되었습니다.</div>, {}, AlertOption.SUCCESS, 800, null);
-  };
-
-  // 메시지 쓰기 이벤트
-  const onClickWriteButton = () => {
-    dispatch(
-      showModal(
-        <LetterModalContent content="" isEdit={true}></LetterModalContent>,
-        <ModalButtonContainer>
-          <ModalEnrollButton onClick={onClickEnrollButton}>등록</ModalEnrollButton>
-          <div>
-            <label htmlFor="fromName">From.</label>
-            <input id="fromName" ref={fromNameRef} placeholder={`최대 ${MAX_FROM_NAME_LENGTH}자 까지 가능 합니다.`} />
-          </div>
-        </ModalButtonContainer>,
-        {
-          background: '#fff9db',
-        },
-        true,
-      ),
-    );
-  };
 
   const filtered = letters.filter(letter => letter.to === name);
 
@@ -88,6 +54,16 @@ const Detail = () => {
     };
   }, []);
 
+  // 메시지 쓰기 이벤트
+  const onClickWriteButton = () => {
+    setIsWrite(true);
+    dispatch(
+      showModal(<></>, {
+        background: '#fff9db',
+      }),
+    );
+  };
+
   return (
     <Container>
       <Img $img={image}></Img>
@@ -104,10 +80,11 @@ const Detail = () => {
           </EmptyContainer>
         )}
         {filtered.map(letter => (
-          <LetterRow key={letter.id} letter={letter} />
+          <LetterRow key={letter.id} letter={letter} setSelectedLetter={setSelectedLetter} />
         ))}
         <WriteButton onClick={onClickWriteButton}>📝</WriteButton>
       </LetterListContainer>
+      {isWrite ? <WriteModal name={name} setIsWrite={setIsWrite} /> : <DetailModal selectedLetter={selectedLetter} />}
     </Container>
   );
 };
@@ -169,41 +146,6 @@ const WriteButton = styled.button`
   &:hover {
     background: rgba(211, 211, 211, 0.9);
   }
-`;
-
-const ModalButtonContainer = styled.footer`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 10px 20px;
-  font-size: 25px;
-
-  & div {
-    display: flex;
-    align-items: center;
-  }
-
-  & button {
-    border-radius: 5px;
-  }
-
-  & input {
-    border: none;
-    height: 30px;
-    margin-left: 20px;
-    background: transparent;
-    border-bottom: 1px solid black;
-    font-size: 20px;
-  }
-`;
-
-const ModalEnrollButton = styled.button`
-  font-size: 25px;
-  padding: 10px;
-  border: none;
-  background: #37b24d;
-  color: white;
-  cursor: pointer;
 `;
 
 const EmptyContainer = styled.div`

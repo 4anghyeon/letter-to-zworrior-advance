@@ -1,30 +1,30 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
-import {showModal} from '../../redux/modules/modal';
+import {hideModal, showModal} from '../../redux/modules/modal';
 
-// TODO: children을 props로 내려받는 방식으로 고쳐야할 필요!
 const Modal = ({children}) => {
   const modalOption = useSelector(state => state.modal);
   const dispatch = useDispatch();
 
-  const hideModal = () => {
-    dispatch(showModal(null, null, {}, false));
+  const handleClickHide = () => {
+    dispatch(hideModal());
   };
 
   return (
-    <>
-      <ModalContainer $show={modalOption.visible} style={modalOption.styleOption}>
-        {modalOption.showHeader && (
-          <ModalHeader>
-            <button onClick={hideModal}>X</button>
-          </ModalHeader>
-        )}
-        {modalOption.contentElem}
-        {modalOption.footerElem}
-      </ModalContainer>
-      <ModalShadow onClick={hideModal} id="modalShadow" $show={modalOption.visible}></ModalShadow>
-    </>
+    modalOption.visible && (
+      <>
+        <ModalContainer $show={modalOption.visible} style={modalOption.styleOption}>
+          {modalOption.showHeader && (
+            <ModalHeader>
+              <button onClick={handleClickHide}>X</button>
+            </ModalHeader>
+          )}
+          {children}
+        </ModalContainer>
+        <ModalShadow onClick={handleClickHide} $show={modalOption.visible}></ModalShadow>
+      </>
+    )
   );
 };
 
@@ -33,6 +33,7 @@ const ModalShadow = styled.div`
   height: 100vh;
   width: 100vw;
   position: absolute;
+  top: 0;
   z-index: 10;
   background: rgba(211, 211, 211, 0.2);
 `;
@@ -57,6 +58,7 @@ const ModalContainer = styled.section`
 const ModalHeader = styled.header`
   display: flex;
   justify-content: end;
+
   & button {
     display: flex;
     align-items: center;

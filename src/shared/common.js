@@ -2,10 +2,8 @@ export const MAX_LETTER_LENGTH = 200;
 export const MAX_FROM_NAME_LENGTH = 20;
 
 export class ModalOption {
-  constructor(showHeader, contentElem, footerElem, styleOption, visible) {
-    this.showHeader = showHeader;
+  constructor(contentElem, styleOption, visible) {
     this.contentElem = contentElem;
-    this.footerElem = footerElem;
     this.styleOption = styleOption;
     this.visible = visible;
   }

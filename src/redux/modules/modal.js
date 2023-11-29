@@ -4,12 +4,19 @@ const initialState = new ModalOption();
 
 // action values
 const SHOW = 'modal/show';
+const HIDE = 'modal/hide';
 
 // action creator
-export const showModal = (content, footer, styleOption, visible) => {
+export const showModal = (content, styleOption, visible) => {
   return {
     type: SHOW,
-    option: new ModalOption(true, content, footer, styleOption, visible),
+    option: new ModalOption(content, styleOption, visible),
+  };
+};
+
+export const hideModal = () => {
+  return {
+    type: HIDE,
   };
 };
 
@@ -18,7 +25,9 @@ export const showModal = (content, footer, styleOption, visible) => {
 const modal = (state = initialState, action) => {
   switch (action.type) {
     case SHOW:
-      return {...state, ...action.option};
+      return {...state, ...action.option, visible: true};
+    case HIDE:
+      return {...state, visible: false};
     default:
       return state;
   }

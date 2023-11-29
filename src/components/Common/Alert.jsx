@@ -4,7 +4,7 @@ import {AlertOption} from '../../shared/common';
 import {useSelector} from 'react-redux';
 
 // TODO: children을 props로 내려받는 방식으로 고쳐야할 필요!
-const Alert = () => {
+const Alert = ({children}) => {
   const alertOption = useSelector(state => state.customAlert);
 
   return (
@@ -34,7 +34,7 @@ const AlertContainer = styled.section`
   right: 0;
   margin: auto;
   border: 1px solid white;
-  z-index: 100;
+  z-index: 1000;
   border-radius: 10px;
   background: white;
   box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;

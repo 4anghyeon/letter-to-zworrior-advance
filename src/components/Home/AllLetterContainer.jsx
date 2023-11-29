@@ -1,18 +1,21 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import LetterRow from '../Detail/LetterRow';
 import {useSelector} from 'react-redux';
+import DetailModal from '../Detail/DetailModal';
 
 const AllLetterContainer = () => {
   const letters = useSelector(state => state.letters);
+  const [selectedLetter, setSelectedLetter] = useState({content: ''});
 
   return (
     <AllLetterSection>
       <LetterContainer>
-        {letters.map(letter => {
-          return <LetterRow key={letter.id} letter={letter} />;
-        })}
+        {letters.map(letter => (
+          <LetterRow key={letter.id} letter={letter} setSelectedLetter={setSelectedLetter} />
+        ))}
       </LetterContainer>
+      <DetailModal selectedLetter={selectedLetter} />
     </AllLetterSection>
   );
 };
