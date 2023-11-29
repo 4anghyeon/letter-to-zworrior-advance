@@ -13,7 +13,7 @@ const Alert = ({children}) => {
         {alertOption.type === AlertOption.SUCCESS && <span>✅ </span>}
         {alertOption.type === AlertOption.WARN && <span>⚠️</span>}
         {alertOption.type === AlertOption.FAIL && <span>😢 </span>}
-        {alertOption.contentElem}
+        {alertOption.content}
       </MessageDiv>
     </AlertContainer>
   );

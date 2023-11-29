@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {convertDateToDateTimeString} from '../../shared/common';
 import {useDispatch} from 'react-redux';
-import {showModal} from '../../redux/modules/modal';
+import {showModal} from '../../redux/modules/modalSlice';
 
 const LetterRow = ({letter, setSelectedLetter}) => {
   let {content} = letter;
@@ -14,7 +14,15 @@ const LetterRow = ({letter, setSelectedLetter}) => {
   // 모달 창 OPEN, EventBinding
   const handleClickLetter = () => {
     setSelectedLetter(letter);
-    dispatch(showModal(content, {background: '#fff9db'}, true));
+    dispatch(
+      showModal({
+        content,
+        styleOption: {
+          background: '#fff9db',
+        },
+        visible: true,
+      }),
+    );
   };
 
   return (

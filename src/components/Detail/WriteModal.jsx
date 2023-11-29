@@ -3,8 +3,8 @@ import Modal from '../Common/Modal';
 import LetterModalContent from '../Common/LetterModalContent';
 import {AlertOption, MAX_FROM_NAME_LENGTH, validation} from '../../shared/common';
 import styled from 'styled-components';
-import {addLetter} from '../../redux/modules/letters';
-import {hideModal} from '../../redux/modules/modal';
+import {addLetter} from '../../redux/modules/lettersSlice';
+import {hideModal} from '../../redux/modules/modalSlice';
 import {usePopup} from '../../shared/hooks';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -27,10 +27,10 @@ const WriteModal = ({name, setIsWrite}) => {
 
     if (!validation(contentValue, fromNameRef.current.value, popup)) return;
 
-    dispatch(addLetter(name, contentValue, fromNameRef.current.value));
+    dispatch(addLetter({name, content: contentValue, from: fromNameRef.current.value}));
     dispatch(hideModal());
 
-    popup(<div>등록 되었습니다.</div>, {}, AlertOption.SUCCESS, 800, null);
+    popup('등록 되었습니다.', {}, AlertOption.SUCCESS, 800, null);
   };
 
   return (

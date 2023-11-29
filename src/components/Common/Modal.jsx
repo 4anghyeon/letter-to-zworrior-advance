@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
-import {hideModal, showModal} from '../../redux/modules/modal';
+import {hideModal, showModal} from '../../redux/modules/modalSlice';
 
 const Modal = ({children}) => {
   const modalOption = useSelector(state => state.modal);
@@ -15,11 +15,9 @@ const Modal = ({children}) => {
     modalOption.visible && (
       <>
         <ModalContainer $show={modalOption.visible} style={modalOption.styleOption}>
-          {modalOption.showHeader && (
-            <ModalHeader>
-              <button onClick={handleClickHide}>X</button>
-            </ModalHeader>
-          )}
+          <ModalHeader>
+            <button onClick={handleClickHide}>X</button>
+          </ModalHeader>
           {children}
         </ModalContainer>
         <ModalShadow onClick={handleClickHide} $show={modalOption.visible}></ModalShadow>

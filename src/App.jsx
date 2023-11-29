@@ -1,5 +1,5 @@
 import AppRouter from './shared/AppRouter';
-import {GlobalStyle} from './shared/GloabalStyle';
+import {GlobalStyle} from './styles/GloabalStyle';
 import {Provider} from 'react-redux';
 import store from './redux/config/store';
 

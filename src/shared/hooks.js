@@ -1,4 +1,4 @@
-import {hideAlert, showAlert} from '../redux/modules/customAlert';
+import {hideAlert, showAlert} from '../redux/modules/alertSlice';
 import {useDispatch} from 'react-redux';
 
 export const usePopup = () => {
@@ -6,12 +6,12 @@ export const usePopup = () => {
 
   return (content, styleOption, type, millis, cb) => {
     setTimeout(() => {
-      dispatch(showAlert(content, styleOption, type));
+      dispatch(showAlert({content, styleOption, type}));
       if (cb) cb();
 
       if (millis !== Number.POSITIVE_INFINITY) {
         setTimeout(() => {
-          dispatch(hideAlert(content, styleOption, type));
+          dispatch(hideAlert({content, styleOption, type}));
         }, millis);
       }
     });

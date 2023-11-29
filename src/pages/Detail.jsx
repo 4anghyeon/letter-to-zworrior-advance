@@ -4,7 +4,7 @@ import {warriors} from '../shared/data';
 import styled from 'styled-components';
 import LetterRow from '../components/Detail/LetterRow';
 import {useDispatch, useSelector} from 'react-redux';
-import {showModal} from '../redux/modules/modal';
+import {showModal} from '../redux/modules/modalSlice';
 import DetailModal from '../components/Detail/DetailModal';
 import WriteModal from '../components/Detail/WriteModal';
 
@@ -58,8 +58,12 @@ const Detail = () => {
   const onClickWriteButton = () => {
     setIsWrite(true);
     dispatch(
-      showModal(<></>, {
-        background: '#fff9db',
+      showModal({
+        content: '',
+        styleOption: {
+          background: '#fff9db',
+        },
+        visible: true,
       }),
     );
   };

@@ -2,13 +2,13 @@ import React, {useEffect, useState} from 'react';
 import Modal from '../Common/Modal';
 import LetterModalContent from '../Common/LetterModalContent';
 import DetailModalFooter from './DetailModalFooter';
-import {removeLetter, updateLetter} from '../../redux/modules/letters';
+import {removeLetter, updateLetter} from '../../redux/modules/lettersSlice';
 import {AlertOption, validation} from '../../shared/common';
 import DeletePopup from './DeletePopup';
-import {hideAlert} from '../../redux/modules/customAlert';
+import {hideAlert} from '../../redux/modules/alertSlice';
 import {useDispatch} from 'react-redux';
 import {usePopup} from '../../shared/hooks';
-import {hideModal} from '../../redux/modules/modal';
+import {hideModal} from '../../redux/modules/modalSlice';
 import {createPortal} from 'react-dom';
 
 const DetailModal = ({selectedLetter}) => {
@@ -28,7 +28,7 @@ const DetailModal = ({selectedLetter}) => {
   const handleClickDelete = () => {
     const handleClick = () => {
       dispatch(removeLetter(selectedLetter.id));
-      popup(<div>삭제 되었습니다.</div>, {}, AlertOption.SUCCESS, 800, null);
+      popup('삭제 되었습니다.', {}, AlertOption.SUCCESS, 800, null);
       dispatch(hideModal());
     };
 
@@ -53,14 +53,14 @@ const DetailModal = ({selectedLetter}) => {
     if (!validation($textarea.value, selectedLetter.from, popup)) return;
 
     if (content === $textarea.value) {
-      popup(<div>수정 사항이 없습니다.</div>, {}, AlertOption.WARN, 800, () => {
+      popup('수정 사항이 없습니다.', {}, AlertOption.WARN, 800, () => {
         setIsEdit(false);
       });
 
       return;
     }
 
-    dispatch(updateLetter(selectedLetter.id, $textarea.value));
+    dispatch(updateLetter({id: selectedLetter.id, content: $textarea.value}));
     setIsEdit(false);
     setContent($textarea.value);
   };

@@ -1,10 +1,10 @@
-import {combineReducers, legacy_createStore as createStore} from 'redux';
-import customAlert from '../modules/customAlert';
-import letters from '../modules/letters';
-import modal from '../modules/modal';
+import customAlert from '../modules/alertSlice';
+import letters from '../modules/lettersSlice';
+import modal from '../modules/modalSlice';
+import {configureStore} from '@reduxjs/toolkit';
 
-const rootReducer = combineReducers({letters, modal, customAlert});
-
-const store = createStore(rootReducer);
+const store = configureStore({
+  reducer: {letters, modal, customAlert},
+});
 
 export default store;
