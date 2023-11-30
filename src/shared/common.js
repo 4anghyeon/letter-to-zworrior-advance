@@ -1,13 +1,6 @@
 export const MAX_LETTER_LENGTH = 200;
 export const MAX_FROM_NAME_LENGTH = 20;
-
-export class ModalOption {
-  constructor(contentElem, styleOption, visible) {
-    this.contentElem = contentElem;
-    this.styleOption = styleOption;
-    this.visible = visible;
-  }
-}
+export const TIME_FORMAT = 'YYYY년 MM월 DD일 HH시 mm분';
 
 export class AlertOption {
   constructor(contentElem, styleOption, type, visible) {
@@ -22,19 +15,6 @@ export class AlertOption {
   static SUCCESS = 'success';
   static DEFAULT = 'default';
 }
-
-export const convertDateToDateTimeString = arg => {
-  const date = new Date(arg);
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  const day = date.getDay();
-
-  const hour = date.getHours();
-  const minute = date.getMinutes();
-  const second = date.getSeconds();
-
-  return `${year}년 ${month}월 ${day}일 ${hour}시 ${minute}분 ${second}초`;
-};
 
 // 입력값 검증
 export const validation = (contentValue, fromNameValue, popup) => {

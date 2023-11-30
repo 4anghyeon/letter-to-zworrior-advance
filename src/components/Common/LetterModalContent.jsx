@@ -1,12 +1,12 @@
-import React, {useEffect, useRef} from 'react';
-import styled from 'styled-components';
+import React, {useRef} from 'react';
+import * as S from './styles/LetterModalContent.styled';
 import {MAX_LETTER_LENGTH} from '../../shared/common';
 
 const LetterModalContent = ({content, isEdit}) => {
   const textAreaRef = useRef(null);
 
   return (
-    <Content>
+    <S.Content>
       {!isEdit && <span>{content}</span>}
       {isEdit && (
         <textarea
@@ -17,34 +17,8 @@ const LetterModalContent = ({content, isEdit}) => {
           placeholder={`최대 ${MAX_LETTER_LENGTH}자 까지 가능 합니다.`}
         ></textarea>
       )}
-    </Content>
+    </S.Content>
   );
 };
-
-const Content = styled.article`
-  padding: 30px;
-  font-size: 25px;
-  line-height: 50px;
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-  font-family: 'KOTRAHOPE', serif;
-  & span {
-    border-bottom: 1px solid lightgrey;
-  }
-
-  & textarea {
-    height: calc(100% - 2ch);
-    width: 100%;
-    line-height: 4ch;
-    background-image: linear-gradient(transparent, transparent calc(4ch - 1px), #adb5bd 0px);
-    background-color: transparent;
-    background-size: 100% 4ch;
-    font-size: 25px;
-    border: none;
-    resize: none;
-    font-family: 'KOTRAHOPE', serif;
-  }
-`;
 
 export default LetterModalContent;

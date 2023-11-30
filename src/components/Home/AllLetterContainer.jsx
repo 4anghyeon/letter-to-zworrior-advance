@@ -1,37 +1,29 @@
 import React, {useEffect, useState} from 'react';
-import styled from 'styled-components';
-import LetterRow from '../Detail/LetterRow';
-import {useSelector} from 'react-redux';
-import DetailModal from '../Detail/DetailModal';
+import * as S from './styles/AllLetterContainer.styled';
+import LetterRow from '../Detail/Letter/LetterRow';
+import {useDispatch, useSelector} from 'react-redux';
+import DetailModal from '../Detail/Modal/DetailModal';
+import {__findAllLetter} from '../../redux/modules/lettersSlice';
 
 const AllLetterContainer = () => {
-  const letters = useSelector(state => state.letters);
+  const {letters, isLoading} = useSelector(state => state.letters);
   const [selectedLetter, setSelectedLetter] = useState({content: ''});
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(__findAllLetter());
+  }, [isLoading]);
 
   return (
-    <AllLetterSection>
-      <LetterContainer>
+    <S.AllLetterSection>
+      <S.LetterContainer>
         {letters.map(letter => (
           <LetterRow key={letter.id} letter={letter} setSelectedLetter={setSelectedLetter} />
         ))}
-      </LetterContainer>
+      </S.LetterContainer>
       <DetailModal selectedLetter={selectedLetter} />
-    </AllLetterSection>
+    </S.AllLetterSection>
   );
 };
-
-const AllLetterSection = styled.section`
-  display: flex;
-  justify-content: center;
-  height: 50%;
-`;
-
-const LetterContainer = styled.div`
-  margin: 10px;
-  padding: 10px;
-  width: 50%;
-  border-radius: 10px;
-  overflow: auto;
-`;
 
 export default AllLetterContainer;
