@@ -1,5 +1,7 @@
 import {initLetters} from '../../shared/data';
 import {createSlice} from '@reduxjs/toolkit';
+import {v4 as uuidv4} from 'uuid';
+import moment from 'moment';
 
 const data = localStorage.getItem('letters');
 const initialState = JSON.parse(data) || initLetters;
@@ -9,7 +11,13 @@ const lettersSlice = createSlice({
   initialState,
   reducers: {
     addLetter: (state, action) => {
-      state.push({name: action.payload.name, from: action.payload.from, content: action.payload.content});
+      state.push({
+        id: uuidv4(),
+        to: action.payload.name,
+        from: action.payload.from,
+        content: action.payload.content,
+        date: moment(),
+      });
       localStorage.setItem('letters', JSON.stringify(state));
       return state;
     },

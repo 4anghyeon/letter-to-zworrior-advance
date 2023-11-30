@@ -82,5 +82,9 @@ export const GlobalStyle = createGlobalStyle`
     ::-webkit-scrollbar-thumb {
       background: white;
     }
+    
+    .swal2-icon {
+      width: 100%;
+    }
   }
   `;

@@ -15,7 +15,7 @@ export class Letter {
     this.to = to;
     this.content = content;
     this.from = from;
-    this.date = new Date().toISOString();
+    this.date = new Date();
   }
 }
 

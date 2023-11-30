@@ -10,6 +10,7 @@ import {useDispatch} from 'react-redux';
 import {usePopup} from '../../shared/hooks';
 import {hideModal} from '../../redux/modules/modalSlice';
 import {createPortal} from 'react-dom';
+import Swal from 'sweetalert2';
 
 const DetailModal = ({selectedLetter}) => {
   const [isEdit, setIsEdit] = useState(false);
@@ -26,19 +27,22 @@ const DetailModal = ({selectedLetter}) => {
 
   // 삭제 버튼을 누를 경우 동작하는 이벤트
   const handleClickDelete = () => {
-    const handleClick = () => {
-      dispatch(removeLetter(selectedLetter.id));
-      popup('삭제 되었습니다.', {}, AlertOption.SUCCESS, 800, null);
-      dispatch(hideModal());
-    };
-
-    popup(
-      <DeletePopup handleClickYes={handleClick} handleClickNo={() => dispatch(hideAlert())} />,
-      {},
-      AlertOption.DEFAULT,
-      Number.POSITIVE_INFINITY,
-      null,
-    );
+    Swal.fire({
+      title: '삭제 하시겠습니까?',
+      text: '삭제하면 복구할 수 없습니다.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '삭제',
+      cancelButtonText: '취소',
+    }).then(result => {
+      if (result.isConfirmed) {
+        dispatch(removeLetter(selectedLetter.id));
+        popup('삭제 되었습니다.', {}, AlertOption.SUCCESS, 800, null);
+        dispatch(hideModal());
+      }
+    });
   };
 
   // 수정 버튼 누를 경우 동작하는 이벤트

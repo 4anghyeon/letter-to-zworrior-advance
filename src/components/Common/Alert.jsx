@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import {AlertOption} from '../../shared/common';
 import {useSelector} from 'react-redux';
+import DeletePopup from '../Detail/DeletePopup';
 
-// TODO: children을 props로 내려받는 방식으로 고쳐야할 필요!
+// TODO: children을 props로 내려받는 방식으로 고쳐야할 필요! (너무 복잡..)
 const Alert = ({children}) => {
   const alertOption = useSelector(state => state.customAlert);
-
   return (
     <AlertContainer $show={alertOption.visible} style={alertOption.styleOption}>
       <MessageDiv>

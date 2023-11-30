@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import {convertDateToDateTimeString} from '../../shared/common';
 import {useDispatch} from 'react-redux';
 import {showModal} from '../../redux/modules/modalSlice';
+import moment from 'moment';
 
 const LetterRow = ({letter, setSelectedLetter}) => {
   let {content} = letter;
@@ -30,7 +31,7 @@ const LetterRow = ({letter, setSelectedLetter}) => {
       <ProfileImg src={envelopeCloseImg} />
       <div>
         <LetterContent>{content}</LetterContent>
-        <span>{convertDateToDateTimeString(letter.date)}</span>
+        <span>{moment(letter.date).format('YYYY-MM-DD HH:mm:ss')}</span>
         <span>From. {letter.from}</span>
       </div>
     </LetterContainer>
