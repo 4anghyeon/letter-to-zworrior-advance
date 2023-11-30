@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {warriors} from '../shared/data';
-import styled from 'styled-components';
+import * as S from './styles/Detail.styled';
 import LetterRow from '../components/Detail/Letter/LetterRow';
 import {useDispatch, useSelector} from 'react-redux';
 import {showModal} from '../redux/modules/modalSlice';
@@ -73,97 +73,27 @@ const Detail = () => {
   };
 
   return (
-    <Container>
-      <Img $img={image}></Img>
-      <Header>
+    <S.Container>
+      <S.Img $img={image}></S.Img>
+      <S.Header>
         <h1>
           <span ref={nameRef}></span>에게 응원의 메시지를 남겨보세요.
         </h1>
-      </Header>
-      <LetterListContainer>
+      </S.Header>
+      <S.LetterListContainer>
         {filtered.length === 0 && (
-          <EmptyContainer>
+          <S.EmptyContainer>
             <p>남겨진 응원 메시지가 없습니다. 🥺</p>
             <p>첫 번째 응원 메시지를 남겨주세요!</p>
-          </EmptyContainer>
+          </S.EmptyContainer>
         )}
         {filtered.map(letter => (
           <LetterRow key={letter.id} letter={letter} setSelectedLetter={setSelectedLetter} />
         ))}
-        <WriteButton onClick={onClickWriteButton}>📝</WriteButton>
-      </LetterListContainer>
+        <S.WriteButton onClick={onClickWriteButton}>📝</S.WriteButton>
+      </S.LetterListContainer>
       {isWrite ? <WriteModal name={name} setIsWrite={setIsWrite} /> : <DetailModal selectedLetter={selectedLetter} />}
-    </Container>
+    </S.Container>
   );
 };
-
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-areas:
-    'menu header'
-    'menu main';
-  grid-template-rows: 0.1fr 1fr;
-`;
-
-const Img = styled.div`
-  width: 30vw;
-  height: 100%;
-  background-image: url(${({$img}) => $img});
-  background-position-x: center;
-  background-size: cover;
-  grid-area: menu;
-`;
-
-const Header = styled.header`
-  width: 70vw;
-  height: fit-content;
-  padding: 10px;
-  & h1 {
-    font-size: 3.5rem;
-  }
-  grid-area: header;
-  text-align: center;
-  color: white;
-`;
-
-const LetterListContainer = styled.section`
-  grid-area: main;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  padding: 0 10px;
-  overflow: auto;
-  position: relative;
-`;
-
-const WriteButton = styled.button`
-  position: fixed;
-  width: 100px;
-  height: 100px;
-  font-size: 50px;
-  bottom: 0;
-  right: 0;
-  background: rgba(211, 211, 211, 0.5);
-  border: none;
-  border-radius: 50px;
-  margin: 0 40px 60px 0;
-  cursor: pointer;
-  &:hover {
-    background: rgba(211, 211, 211, 0.9);
-  }
-`;
-
-const EmptyContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  font-size: 50px;
-  color: white;
-`;
-
 export default Detail;

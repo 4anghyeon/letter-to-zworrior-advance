@@ -18,7 +18,7 @@ export const GlobalStyle = createGlobalStyle`
   article, aside, canvas, details, embed,
   figure, figcaption, footer, header, hgroup,
   menu, nav, output, ruby, section, summary,
-  time, mark, audio, video {
+  time, mark, audio, video, input {
     margin: 0;
     padding: 0;
     border: 0;
@@ -84,7 +84,10 @@ export const GlobalStyle = createGlobalStyle`
     }
     
     .swal2-icon {
-      width: 100%;
+      margin: 0 auto;
+    }
+    .swal2-popup {
+      padding: 1.25em 0 1.25em
     }
   }
   `;
