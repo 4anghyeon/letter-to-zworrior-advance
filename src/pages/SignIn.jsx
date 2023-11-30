@@ -1,17 +1,16 @@
 import React, {useEffect, useRef, useState} from 'react';
 import * as S from './styles/SignIn.styled';
 import {ValidationMessage} from './styles/SignIn.styled';
-import {authApi, authAPI, ERROR_CONFLICT} from '../axios/api';
+import {authApi, ERROR_CONFLICT} from '../axios/api';
 import Swal from 'sweetalert2';
-import {__removeLetterById} from '../redux/modules/lettersSlice';
-import {AlertOption} from '../shared/common';
-import {hideModal} from '../redux/modules/modalSlice';
 
 const SignIn = () => {
-  const [isLoginPage, setIsLoginPage] = useState(false);
+  const [isLoginPage, setIsLoginPage] = useState(true);
   const [isValid, setIsValid] = useState(false);
-  const idRef = useRef(null);
-  const passwordRef = useRef(null);
+  const signInIdRef = useRef(null);
+  const signInPasswordRef = useRef(null);
+  const signUpIdRef = useRef(null);
+  const signUpPasswordRef = useRef(null);
   const nicknameRef = useRef(null);
 
   // form의 전체 validation 여부를 결정하는 state
@@ -66,7 +65,7 @@ const SignIn = () => {
     }
 
     if (name === 'rePassword') {
-      if (value !== passwordRef.current.value) {
+      if (value !== signUpPasswordRef.current.value) {
         isValid = false;
         message = '비밀번호가 일치하지 않습니다.';
       }
@@ -88,8 +87,8 @@ const SignIn = () => {
   const onClickSignUpButton = async () => {
     try {
       const result = await authApi.post('/register', {
-        id: idRef.current.value,
-        password: passwordRef.current.value,
+        id: signUpIdRef.current.value,
+        password: signUpPasswordRef.current.value,
         nickname: nicknameRef.current.value,
       });
 
@@ -105,8 +104,6 @@ const SignIn = () => {
           }
         });
       }
-
-      console.log(result);
     } catch (error) {
       const {response} = error;
       if (response) {
@@ -121,6 +118,18 @@ const SignIn = () => {
     }
   };
 
+  const onClickSignInButton = async () => {
+    try {
+      const result = await authApi.post('/login', {
+        id: signInIdRef.current.value,
+        password: signInPasswordRef.current.value,
+      });
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     checkIsAllValid();
   }, [validation]);
@@ -130,9 +139,9 @@ const SignIn = () => {
       {isLoginPage ? (
         <>
           <S.Form>
-            <input key="signInId" type="text" placeholder="아이디를 입력해주세요" autoFocus={true} />
-            <input key="signInPw" type="password" placeholder="비밀번호를 입력해주세요" />
-            <S.Button type="button" $color="white" $bgColor="#f59f00">
+            <input key="signInId" type="text" placeholder="아이디를 입력해주세요" autoFocus={true} ref={signInIdRef} />
+            <input key="signInPw" type="password" placeholder="비밀번호를 입력해주세요" ref={signInPasswordRef} />
+            <S.Button type="button" $color="white" $bgColor="#f59f00" onClick={onClickSignInButton}>
               로그인
             </S.Button>
           </S.Form>
@@ -149,7 +158,7 @@ const SignIn = () => {
               maxLength={10}
               placeholder="아이디를 입력해주세요 (4~10 글자)"
               onChange={onChangeInputHandler}
-              ref={idRef}
+              ref={signUpIdRef}
               autoFocus={true}
             />
             {!validation.id.isValid && validation.id.message && (
@@ -159,7 +168,7 @@ const SignIn = () => {
               key="signUpPw"
               type="password"
               name="password"
-              ref={passwordRef}
+              ref={signUpPasswordRef}
               minLength={4}
               maxLength={15}
               placeholder="비밀번호를 입력해주세요 (4~15 글자)"
