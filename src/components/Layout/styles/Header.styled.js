@@ -25,6 +25,14 @@ export const HeaderContainer = styled.header`
   }
 `;
 
+export const ProfileImg = styled.div`
+  width: 40px;
+  height: 40px;
+  background-image: url(${({$img}) => $img});
+  background-size: cover;
+  border-radius: 50%;
+`;
+
 export const Button = styled.button`
   margin-left: 20px;
   height: 30px;

@@ -31,6 +31,7 @@ export const __addLetter = createAsyncThunk('letters/addLetter', async arg => {
     from: arg.from,
     content: arg.content,
     userId: arg.userId,
+    avatar: arg.avatar,
     date: moment(),
   });
 });

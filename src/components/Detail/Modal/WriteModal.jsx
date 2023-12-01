@@ -10,7 +10,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useCheckToken} from '../../../hooks/useCheckToken';
 
 const WriteModal = ({name}) => {
-  const {nickname, userId} = useSelector(state => state.auth);
+  const {nickname, userId, avatar} = useSelector(state => state.auth);
   const fromNameRef = useRef(null); // 쓰는 사람 이름
 
   const popup = usePopup();
@@ -26,7 +26,7 @@ const WriteModal = ({name}) => {
 
     if (!validation(contentValue, fromNameRef.current.value, popup)) return;
 
-    dispatch(__addLetter({name, content: contentValue, from: nickname, userId: userId}));
+    dispatch(__addLetter({name, content: contentValue, from: nickname, userId: userId, avatar: avatar}));
     dispatch(hideModal());
 
     popup('등록 되었습니다.', {}, AlertOption.SUCCESS, 800, null);

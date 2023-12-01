@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import {ProfileImg} from '../../../Layout/styles/Header.styled';
 
 export const LetterModalFooter = styled.footer`
   margin: 10px 20px;
@@ -6,7 +7,7 @@ export const LetterModalFooter = styled.footer`
   font-size: 20px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
 `;
 
 export const ModalButton = styled.button`
@@ -20,4 +21,17 @@ export const ModalButton = styled.button`
   color: white;
   font-size: 20px;
   border-radius: 5px;
+`;
+
+export const WriteInfoWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+`;
+
+export const WriterImg = styled(ProfileImg)`
+  width: 50px;
+  height: 50px;
+  margin-right: 25px;
 `;

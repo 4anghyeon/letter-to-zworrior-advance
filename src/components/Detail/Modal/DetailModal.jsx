@@ -11,6 +11,8 @@ import Swal from 'sweetalert2';
 import moment from 'moment/moment';
 import * as S from './styles/DetailModal.styled';
 import {useCheckToken} from '../../../hooks/useCheckToken';
+import {WriterImg} from './styles/DetailModal.styled';
+import defaultAvatar from 'assets/img/dragonball.png';
 
 const DetailModal = ({selectedLetter}) => {
   const {userId} = useSelector(state => state.auth);
@@ -79,27 +81,36 @@ const DetailModal = ({selectedLetter}) => {
     <Modal>
       <LetterModalContent content={content} isEdit={isEdit}></LetterModalContent>
       <S.LetterModalFooter>
-        {selectedLetter.userId === userId && (
-          <div>
-            {!isEdit ? (
-              <S.ModalButton onClick={handleClickEdit} $background={'#69db7c'}>
-                수정
-              </S.ModalButton>
-            ) : (
-              <S.ModalButton onClick={handleClickComplete} $background={'#228be6'}>
-                완료
-              </S.ModalButton>
-            )}
-            {!isEdit && (
-              <S.ModalButton onClick={handleClickDelete} $background={'#f03e3e'}>
-                삭제
-              </S.ModalButton>
-            )}
-          </div>
-        )}
+        <div>
+          {selectedLetter.userId === userId && (
+            <>
+              {!isEdit ? (
+                <S.ModalButton onClick={handleClickEdit} $background={'#69db7c'}>
+                  수정
+                </S.ModalButton>
+              ) : (
+                <S.ModalButton onClick={handleClickComplete} $background={'#228be6'}>
+                  완료
+                </S.ModalButton>
+              )}
+              {!isEdit && (
+                <S.ModalButton onClick={handleClickDelete} $background={'#f03e3e'}>
+                  삭제
+                </S.ModalButton>
+              )}
+            </>
+          )}
+        </div>
 
-        <span>{moment(selectedLetter.date).format(TIME_FORMAT)}</span>
-        <span>From. {selectedLetter.from}</span>
+        <div>
+          <div>
+            <span>{moment(selectedLetter.date).format(TIME_FORMAT)}</span>
+          </div>
+          <S.WriteInfoWrapper>
+            <WriterImg $img={selectedLetter.avatar === null ? defaultAvatar : selectedLetter.avatar} />
+            <span>From. {selectedLetter.from}</span>
+          </S.WriteInfoWrapper>
+        </div>
       </S.LetterModalFooter>
     </Modal>,
     document.getElementById('modal'),
