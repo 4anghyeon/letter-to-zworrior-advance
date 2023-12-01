@@ -2,12 +2,9 @@ import React from 'react';
 import * as S from './styles/LetterRow.styled';
 import {TIME_FORMAT} from '../../../shared/common';
 import {useDispatch} from 'react-redux';
-import {hideModal, showModal} from '../../../redux/modules/modalSlice';
+import {showModal} from '../../../redux/modules/modalSlice';
 import moment from 'moment';
 import envelopeCloseImg from 'assets/img/envelope-close.png';
-import {authApi} from '../../../axios/api';
-import Swal from 'sweetalert2';
-import {logout} from '../../../redux/modules/authSlice';
 import {useCheckToken} from '../../../hooks/useCheckToken';
 
 const LetterRow = ({letter, setSelectedLetter}) => {

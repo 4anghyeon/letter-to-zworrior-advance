@@ -7,34 +7,29 @@ import {useDispatch, useSelector} from 'react-redux';
 import {showModal} from '../redux/modules/modalSlice';
 import DetailModal from '../components/Detail/Modal/DetailModal';
 import WriteModal from '../components/Detail/Modal/WriteModal';
-import {__findAllLetterByName} from '../redux/modules/lettersSlice';
 import {useCheckToken} from '../hooks/useCheckToken';
+import {useQuery} from 'react-query';
+import {findAllLettersByName} from '../api/letters';
 
 const Detail = () => {
-  const {letters, isLoading} = useSelector(state => state.letters);
+  const params = useParams();
+  const {name, separatedName, enName} = warriors.find(d => +d.id === +params.id);
+
+  const {data: letters} = useQuery('lettersByName', findAllLettersByName.bind(null, name));
   const {key} = useSelector(state => state.modal);
 
   const [selectedLetter, setSelectedLetter] = useState({content: ''});
-
-  const params = useParams();
   const nameRef = useRef(null); // 캐릭터 이름
-
   const dispatch = useDispatch();
-
   const checkToken = useCheckToken();
 
-  const {name, separatedName, enName} = warriors.find(d => +d.id === +params.id);
   const image = require(`assets/img/${enName.replace(/\s/g, '')}.png`);
-  const filtered = letters.filter(letter => letter.to === name);
+  const filtered = letters ? letters.filter(letter => letter.to === name) : [];
   const timeoutIds = [];
 
   useEffect(() => {
     checkToken();
   }, []);
-
-  useEffect(() => {
-    dispatch(__findAllLetterByName(name));
-  }, [isLoading]);
 
   useEffect(() => {
     // 글자 하나씩 표시

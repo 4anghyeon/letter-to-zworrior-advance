@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import * as S from './styles/SignIn.styled';
 import {ValidationMessage} from './styles/SignIn.styled';
-import {authApi, ERROR_CONFLICT} from '../axios/api';
+import {authApi} from '../axios/instance';
 import Swal from 'sweetalert2';
 import {useDispatch} from 'react-redux';
 import {login} from '../redux/modules/authSlice';
@@ -122,16 +122,7 @@ const SignIn = () => {
         });
       }
     } catch (error) {
-      const {response} = error;
-      if (response) {
-        if (response.status === ERROR_CONFLICT) {
-          await Swal.fire({
-            icon: 'error',
-            title: '회원가입에 실패하였습니다.',
-            text: response.data.message,
-          });
-        }
-      }
+      console.error(error);
     }
   };
 

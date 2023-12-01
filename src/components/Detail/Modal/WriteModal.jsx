@@ -1,17 +1,26 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useRef} from 'react';
 import Modal from '../../Common/Modal';
 import LetterModalContent from '../../Common/LetterModalContent';
 import {AlertOption, MAX_FROM_NAME_LENGTH, validation} from '../../../shared/common';
 import * as S from './styles/WriteModal.styled';
-import {__addLetter} from '../../../redux/modules/lettersSlice';
 import {hideModal} from '../../../redux/modules/modalSlice';
 import {usePopup} from '../../../hooks/usePopup';
 import {useDispatch, useSelector} from 'react-redux';
 import {useCheckToken} from '../../../hooks/useCheckToken';
+import {useMutation, useQueryClient} from 'react-query';
+import {addLetter} from '../../../api/letters';
 
 const WriteModal = ({name}) => {
   const {nickname, userId, avatar} = useSelector(state => state.auth);
   const fromNameRef = useRef(null); // 쓰는 사람 이름
+
+  const queryClient = useQueryClient();
+  const mutation = useMutation(addLetter, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('lettersByName');
+      console.log('성공 하였습니다.');
+    },
+  });
 
   const popup = usePopup();
   const dispatch = useDispatch();
@@ -26,7 +35,7 @@ const WriteModal = ({name}) => {
 
     if (!validation(contentValue, fromNameRef.current.value, popup)) return;
 
-    dispatch(__addLetter({name, content: contentValue, from: nickname, userId: userId, avatar: avatar}));
+    mutation.mutate({name, content: contentValue, from: nickname, userId: userId, avatar: avatar});
     dispatch(hideModal());
 
     popup('등록 되었습니다.', {}, AlertOption.SUCCESS, 800, null);

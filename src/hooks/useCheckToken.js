@@ -1,5 +1,5 @@
 import {useDispatch} from 'react-redux';
-import {authApi} from '../axios/api';
+import {authApi} from '../axios/instance';
 import Swal from 'sweetalert2';
 import {hideModal} from '../redux/modules/modalSlice';
 import {logout} from '../redux/modules/authSlice';

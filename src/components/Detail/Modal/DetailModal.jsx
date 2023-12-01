@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Modal from '../../Common/Modal';
 import LetterModalContent from '../../Common/LetterModalContent';
-import {__removeLetterById, __updateLetterById} from '../../../redux/modules/lettersSlice';
 import {AlertOption, TIME_FORMAT, validation} from '../../../shared/common';
 import {useDispatch, useSelector} from 'react-redux';
 import {usePopup} from '../../../hooks/usePopup';
@@ -13,6 +12,8 @@ import * as S from './styles/DetailModal.styled';
 import {useCheckToken} from '../../../hooks/useCheckToken';
 import {WriterImg} from './styles/DetailModal.styled';
 import defaultAvatar from 'assets/img/dragonball.png';
+import {useMutation, useQueryClient} from 'react-query';
+import {removeLetterById, updateLetterById} from '../../../api/letters';
 
 const DetailModal = ({selectedLetter}) => {
   const {userId} = useSelector(state => state.auth);
@@ -22,6 +23,21 @@ const DetailModal = ({selectedLetter}) => {
 
   const dispatch = useDispatch();
   const popup = usePopup();
+  const queryClient = useQueryClient();
+
+  const mutationRemove = useMutation(removeLetterById, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('lettersByName');
+      console.log('성공 하였습니다.');
+    },
+  });
+
+  const mutationUpdate = useMutation(updateLetterById, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('lettersByName');
+      console.log('성공 하였습니다.');
+    },
+  });
 
   // 삭제 버튼을 누를 경우 동작하는 이벤트
   const handleClickDelete = async () => {
@@ -38,7 +54,7 @@ const DetailModal = ({selectedLetter}) => {
       cancelButtonText: '취소',
     }).then(result => {
       if (result.isConfirmed) {
-        dispatch(__removeLetterById(selectedLetter.id));
+        mutationRemove.mutate(selectedLetter.id);
         popup('삭제 되었습니다.', {}, AlertOption.SUCCESS, 800, null);
         dispatch(hideModal());
       }
@@ -65,7 +81,7 @@ const DetailModal = ({selectedLetter}) => {
       return;
     }
 
-    dispatch(__updateLetterById({id: selectedLetter.id, to: selectedLetter.to, content: $textarea.value}));
+    mutationUpdate.mutate({id: selectedLetter.id, content: $textarea.value});
     setIsEdit(false);
     setContent($textarea.value);
   };
