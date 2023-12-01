@@ -1,5 +1,4 @@
 import {letterApi} from '../axios/instance';
-import {v4 as uuidv4} from 'uuid';
 import moment from 'moment/moment';
 
 export const findAllLetters = async () => {
@@ -14,7 +13,6 @@ export const findAllLettersByName = async name => {
 
 export const addLetter = async ({name, content, from, userId, avatar}) => {
   await letterApi.post('/letters', {
-    id: uuidv4(),
     to: name,
     from: from,
     content: content,

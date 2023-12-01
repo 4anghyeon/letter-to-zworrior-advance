@@ -44,6 +44,15 @@
       "userId": "aaaaaa",
       "avatar": "https://react-jwt-avatar.s3.ap-northeast-2.amazonaws.com/23-12-01/3229719d-dc28-477d-b26b-efa41161c210.jpg",
       "date": "2023-12-01T08:55:41.277Z"
+    },
+    {
+      "to": "손오공",
+      "from": "a",
+      "content": "asdasd",
+      "userId": "aaaaaa",
+      "avatar": "https://react-jwt-avatar.s3.ap-northeast-2.amazonaws.com/23-12-01/3229719d-dc28-477d-b26b-efa41161c210.jpg",
+      "date": "2023-12-01T10:56:03.870Z",
+      "id": "hv396-d"
     }
   ],
   "user": [
