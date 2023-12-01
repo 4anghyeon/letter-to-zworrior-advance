@@ -4,11 +4,19 @@ import LetterRow from '../Detail/Letter/LetterRow';
 import {useDispatch, useSelector} from 'react-redux';
 import DetailModal from '../Detail/Modal/DetailModal';
 import {__findAllLetter} from '../../redux/modules/lettersSlice';
+import {useCheckToken} from '../../hooks/useCheckToken';
 
 const AllLetterContainer = () => {
   const {letters, isLoading} = useSelector(state => state.letters);
   const [selectedLetter, setSelectedLetter] = useState({content: ''});
   const dispatch = useDispatch();
+  const {key} = useSelector(state => state.modal);
+
+  const checkToken = useCheckToken();
+
+  useEffect(() => {
+    checkToken();
+  }, []);
 
   useEffect(() => {
     dispatch(__findAllLetter());
@@ -21,7 +29,7 @@ const AllLetterContainer = () => {
           <LetterRow key={letter.id} letter={letter} setSelectedLetter={setSelectedLetter} />
         ))}
       </S.LetterContainer>
-      <DetailModal selectedLetter={selectedLetter} />
+      {key === 'letter' && <DetailModal selectedLetter={selectedLetter} />}
     </S.AllLetterSection>
   );
 };

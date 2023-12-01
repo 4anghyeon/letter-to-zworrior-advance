@@ -8,22 +8,29 @@ import {showModal} from '../redux/modules/modalSlice';
 import DetailModal from '../components/Detail/Modal/DetailModal';
 import WriteModal from '../components/Detail/Modal/WriteModal';
 import {__findAllLetterByName} from '../redux/modules/lettersSlice';
+import {useCheckToken} from '../hooks/useCheckToken';
 
 const Detail = () => {
   const {letters, isLoading} = useSelector(state => state.letters);
+  const {key} = useSelector(state => state.modal);
 
   const [selectedLetter, setSelectedLetter] = useState({content: ''});
-  const [isWrite, setIsWrite] = useState(false);
 
   const params = useParams();
   const nameRef = useRef(null); // 캐릭터 이름
 
   const dispatch = useDispatch();
 
+  const checkToken = useCheckToken();
+
   const {name, separatedName, enName} = warriors.find(d => +d.id === +params.id);
   const image = require(`assets/img/${enName.replace(/\s/g, '')}.png`);
   const filtered = letters.filter(letter => letter.to === name);
   const timeoutIds = [];
+
+  useEffect(() => {
+    checkToken();
+  }, []);
 
   useEffect(() => {
     dispatch(__findAllLetterByName(name));
@@ -59,17 +66,19 @@ const Detail = () => {
   }, []);
 
   // 메시지 쓰기 이벤트
-  const onClickWriteButton = () => {
-    setIsWrite(true);
-    dispatch(
-      showModal({
-        content: '',
-        styleOption: {
-          background: '#fff9db',
-        },
-        visible: true,
-      }),
-    );
+  const onClickWriteButton = async () => {
+    const isTokenAvailable = await checkToken();
+    if (isTokenAvailable) {
+      dispatch(
+        showModal({
+          key: 'write',
+          styleOption: {
+            background: '#fff9db',
+          },
+          visible: true,
+        }),
+      );
+    }
   };
 
   return (
@@ -92,7 +101,8 @@ const Detail = () => {
         ))}
         <S.WriteButton onClick={onClickWriteButton}>📝</S.WriteButton>
       </S.LetterListContainer>
-      {isWrite ? <WriteModal name={name} setIsWrite={setIsWrite} /> : <DetailModal selectedLetter={selectedLetter} />}
+      {key === 'write' && <WriteModal name={name} />}
+      {key === 'letter' && <DetailModal selectedLetter={selectedLetter} />}
     </S.Container>
   );
 };

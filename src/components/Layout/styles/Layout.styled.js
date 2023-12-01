@@ -7,5 +7,5 @@ export const Main = styled.main`
 `;
 
 export const Content = styled.section`
-  height: calc(100% - 100px); // 100% - (header(px) + footer(px))
+  height: calc(100% - 120px); // 100% - (header(px) + footer(px))
 `;

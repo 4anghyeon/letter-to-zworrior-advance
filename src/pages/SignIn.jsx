@@ -3,15 +3,12 @@ import * as S from './styles/SignIn.styled';
 import {ValidationMessage} from './styles/SignIn.styled';
 import {authApi, ERROR_CONFLICT} from '../axios/api';
 import Swal from 'sweetalert2';
+import {useDispatch} from 'react-redux';
+import {login} from '../redux/modules/authSlice';
 
 const SignIn = () => {
   const [isLoginPage, setIsLoginPage] = useState(true);
   const [isValid, setIsValid] = useState(false);
-  const signInIdRef = useRef(null);
-  const signInPasswordRef = useRef(null);
-  const signUpIdRef = useRef(null);
-  const signUpPasswordRef = useRef(null);
-  const nicknameRef = useRef(null);
 
   // form의 전체 validation 여부를 결정하는 state
   const [validation, setValidation] = useState({
@@ -33,6 +30,25 @@ const SignIn = () => {
       message: '',
     },
   });
+
+  const [loginError, setLoginError] = useState({
+    id: {
+      isError: false,
+      message: '',
+    },
+    password: {
+      isError: false,
+      message: '',
+    },
+  });
+
+  const signInIdRef = useRef(null);
+  const signInPasswordRef = useRef(null);
+  const signUpIdRef = useRef(null);
+  const signUpPasswordRef = useRef(null);
+  const nicknameRef = useRef(null);
+
+  const dispatch = useDispatch();
 
   // 모든 항목이 유효한지 검사한다.
   const checkIsAllValid = () => {
@@ -84,6 +100,7 @@ const SignIn = () => {
     setIsLoginPage(prev => !prev);
   };
 
+  // 회원가입 시도
   const onClickSignUpButton = async () => {
     try {
       const result = await authApi.post('/register', {
@@ -118,15 +135,39 @@ const SignIn = () => {
     }
   };
 
-  const onClickSignInButton = async () => {
+  // 로그인 시도
+  const handleSignIn = async e => {
+    e.preventDefault();
     try {
-      const result = await authApi.post('/login', {
+      const result = await authApi.post('/login?expiresIn=10s', {
         id: signInIdRef.current.value,
         password: signInPasswordRef.current.value,
       });
-      console.log(result);
+      if (result.status === 200) {
+        dispatch(
+          login({
+            isLogin: true,
+            accessToken: result.data.accessToken,
+            nickname: result.data.nickname,
+            avatar: result.data.avatar,
+            userId: result.data.userId,
+          }),
+        );
+      }
     } catch (error) {
-      console.error(error);
+      const {response} = error;
+      const message = response.data.message;
+      if (message.includes('id') || message.includes('유저')) {
+        setLoginError(prev => {
+          return {...prev, id: {isError: true, message}, password: {isError: false}};
+        });
+        signInIdRef.current.focus();
+      } else if (message.includes('password') || message.includes('비밀')) {
+        setLoginError(prev => {
+          return {...prev, password: {isError: true, message}, id: {isError: false}};
+        });
+        signInPasswordRef.current.focus();
+      }
     }
   };
 
@@ -138,10 +179,27 @@ const SignIn = () => {
     <S.Container>
       {isLoginPage ? (
         <>
-          <S.Form>
-            <input key="signInId" type="text" placeholder="아이디를 입력해주세요" autoFocus={true} ref={signInIdRef} />
-            <input key="signInPw" type="password" placeholder="비밀번호를 입력해주세요" ref={signInPasswordRef} />
-            <S.Button type="button" $color="white" $bgColor="#f59f00" onClick={onClickSignInButton}>
+          <S.Form onSubmit={handleSignIn}>
+            <div>
+              <input
+                key="signInId"
+                type="text"
+                placeholder="아이디를 입력해주세요"
+                autoFocus={true}
+                ref={signInIdRef}
+              />
+              {loginError.id.isError && loginError.id.message && (
+                <ValidationMessage>{loginError.id.message}</ValidationMessage>
+              )}
+            </div>
+            <div>
+              <input key="signInPw" type="password" placeholder="비밀번호를 입력해주세요" ref={signInPasswordRef} />
+              {loginError.password.isError && loginError.password.message && (
+                <ValidationMessage>{loginError.password.message}</ValidationMessage>
+              )}
+            </div>
+
+            <S.Button $color="white" $bgColor="#f59f00" onClick={handleSignIn}>
               로그인
             </S.Button>
           </S.Form>

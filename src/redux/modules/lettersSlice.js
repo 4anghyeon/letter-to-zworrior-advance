@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {v4 as uuidv4} from 'uuid';
 import moment from 'moment';
-import {instance} from '../../axios/api';
+import {letterApi} from '../../axios/api';
 
 const initialState = {
   letters: [],
@@ -12,7 +12,7 @@ const initialState = {
 
 export const __findAllLetter = createAsyncThunk('letters/findAll', async (arg, thunkAPI) => {
   try {
-    const {data} = await instance.get('/letters');
+    const {data} = await letterApi.get('/letters');
     return data;
   } catch (error) {
     return error;
@@ -20,26 +20,27 @@ export const __findAllLetter = createAsyncThunk('letters/findAll', async (arg, t
 });
 
 export const __findAllLetterByName = createAsyncThunk('letters/findAllByName', async arg => {
-  const {data} = await instance.get(`/letters?to=${arg}`);
+  const {data} = await letterApi.get(`/letters?to=${arg}`);
   return data;
 });
 
 export const __addLetter = createAsyncThunk('letters/addLetter', async arg => {
-  await instance.post('/letters', {
+  await letterApi.post('/letters', {
     id: uuidv4(),
     to: arg.name,
     from: arg.from,
     content: arg.content,
+    userId: arg.userId,
     date: moment(),
   });
 });
 
 export const __removeLetterById = createAsyncThunk('letters/removeById', async (arg, thunkAPI) => {
-  await instance.delete(`/letters/${arg}`);
+  await letterApi.delete(`/letters/${arg}`);
 });
 
 export const __updateLetterById = createAsyncThunk('letters/updateById', async (arg, thunkAPI) => {
-  await instance.patch(`/letters/${arg.id}`, {content: arg.content});
+  await letterApi.patch(`/letters/${arg.id}`, {content: arg.content});
 });
 
 const lettersSlice = createSlice({

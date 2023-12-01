@@ -18,6 +18,14 @@ export const Form = styled.form`
   height: 50%;
   margin-bottom: 20px;
 
+  div {
+    width: 100%;
+  }
+
+  p {
+    margin-top: 10px;
+  }
+
   & input {
     width: 100%;
     height: 50px;

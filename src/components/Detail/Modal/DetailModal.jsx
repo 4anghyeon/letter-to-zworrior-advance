@@ -3,23 +3,28 @@ import Modal from '../../Common/Modal';
 import LetterModalContent from '../../Common/LetterModalContent';
 import {__removeLetterById, __updateLetterById} from '../../../redux/modules/lettersSlice';
 import {AlertOption, TIME_FORMAT, validation} from '../../../shared/common';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {usePopup} from '../../../hooks/usePopup';
 import {hideModal} from '../../../redux/modules/modalSlice';
 import {createPortal} from 'react-dom';
 import Swal from 'sweetalert2';
 import moment from 'moment/moment';
 import * as S from './styles/DetailModal.styled';
+import {useCheckToken} from '../../../hooks/useCheckToken';
 
 const DetailModal = ({selectedLetter}) => {
+  const {userId} = useSelector(state => state.auth);
   const [isEdit, setIsEdit] = useState(false);
   const [content, setContent] = useState('');
+  const checkToken = useCheckToken();
 
   const dispatch = useDispatch();
   const popup = usePopup();
 
   // 삭제 버튼을 누를 경우 동작하는 이벤트
-  const handleClickDelete = () => {
+  const handleClickDelete = async () => {
+    const isTokenAvailable = await checkToken();
+    if (!isTokenAvailable) return;
     Swal.fire({
       title: '삭제 하시겠습니까?',
       text: '삭제하면 복구할 수 없습니다.',
@@ -44,7 +49,9 @@ const DetailModal = ({selectedLetter}) => {
   };
 
   // 수정 완료 버튼 누를 경우 동작하는 이벤트
-  const handleClickComplete = () => {
+  const handleClickComplete = async () => {
+    const isTokenAvailable = await checkToken();
+    if (!isTokenAvailable) return;
     const $textarea = document.getElementById('content');
 
     if (!validation($textarea.value, selectedLetter.from, popup)) return;
@@ -72,22 +79,25 @@ const DetailModal = ({selectedLetter}) => {
     <Modal>
       <LetterModalContent content={content} isEdit={isEdit}></LetterModalContent>
       <S.LetterModalFooter>
-        <div>
-          {!isEdit ? (
-            <S.ModalButton onClick={handleClickEdit} $background={'#69db7c'}>
-              수정
-            </S.ModalButton>
-          ) : (
-            <S.ModalButton onClick={handleClickComplete} $background={'#228be6'}>
-              완료
-            </S.ModalButton>
-          )}
-          {!isEdit && (
-            <S.ModalButton onClick={handleClickDelete} $background={'#f03e3e'}>
-              삭제
-            </S.ModalButton>
-          )}
-        </div>
+        {selectedLetter.userId === userId && (
+          <div>
+            {!isEdit ? (
+              <S.ModalButton onClick={handleClickEdit} $background={'#69db7c'}>
+                수정
+              </S.ModalButton>
+            ) : (
+              <S.ModalButton onClick={handleClickComplete} $background={'#228be6'}>
+                완료
+              </S.ModalButton>
+            )}
+            {!isEdit && (
+              <S.ModalButton onClick={handleClickDelete} $background={'#f03e3e'}>
+                삭제
+              </S.ModalButton>
+            )}
+          </div>
+        )}
+
         <span>{moment(selectedLetter.date).format(TIME_FORMAT)}</span>
         <span>From. {selectedLetter.from}</span>
       </S.LetterModalFooter>
