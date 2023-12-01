@@ -1,16 +1,15 @@
 import React from 'react';
 import * as S from './styles/LetterRow.styled';
 import {TIME_FORMAT} from '../../../shared/common';
-import {useDispatch} from 'react-redux';
-import {showModal} from '../../../redux/modules/modalSlice';
 import moment from 'moment';
 import envelopeCloseImg from 'assets/img/envelope-close.png';
 import {useCheckToken} from '../../../hooks/useCheckToken';
+import {useModal} from '../../../hooks/useModal';
 
 const LetterRow = ({letter, setSelectedLetter}) => {
   let {content} = letter;
-  const dispatch = useDispatch();
   const checkToken = useCheckToken();
+  const {showModal} = useModal();
 
   // 편지 Row를 클릭할 경우
   // 모달 창 OPEN, EventBinding
@@ -18,15 +17,13 @@ const LetterRow = ({letter, setSelectedLetter}) => {
     const isTokenAvailable = await checkToken();
     if (isTokenAvailable) {
       setSelectedLetter(letter);
-      dispatch(
-        showModal({
-          key: 'letter',
-          styleOption: {
-            background: '#fff9db',
-          },
-          visible: true,
-        }),
-      );
+      showModal({
+        key: 'letter',
+        styleOption: {
+          background: '#fff9db',
+        },
+        visible: true,
+      });
     }
   };
 

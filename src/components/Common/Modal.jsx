@@ -1,14 +1,14 @@
 import React from 'react';
 import * as S from './styles/Modal.styled';
-import {useDispatch, useSelector} from 'react-redux';
-import {hideModal} from '../../redux/modules/modalSlice';
+import {useSelector} from 'react-redux';
+import {useModal} from '../../hooks/useModal';
 
 const Modal = ({children}) => {
   const modalOption = useSelector(state => state.modal);
-  const dispatch = useDispatch();
+  const {hideModal} = useModal();
 
   const handleClickHide = () => {
-    dispatch(hideModal());
+    hideModal();
   };
 
   return (

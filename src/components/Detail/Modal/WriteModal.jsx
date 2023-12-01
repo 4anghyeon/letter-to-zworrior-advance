@@ -3,12 +3,12 @@ import Modal from '../../Common/Modal';
 import LetterModalContent from '../../Common/LetterModalContent';
 import {AlertOption, MAX_FROM_NAME_LENGTH, validation} from '../../../shared/common';
 import * as S from './styles/WriteModal.styled';
-import {hideModal} from '../../../redux/modules/modalSlice';
 import {usePopup} from '../../../hooks/usePopup';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {useCheckToken} from '../../../hooks/useCheckToken';
 import {useMutation, useQueryClient} from 'react-query';
 import {addLetter} from '../../../api/letters';
+import {useModal} from '../../../hooks/useModal';
 
 const WriteModal = ({name}) => {
   const {nickname, userId, avatar} = useSelector(state => state.auth);
@@ -23,7 +23,7 @@ const WriteModal = ({name}) => {
   });
 
   const popup = usePopup();
-  const dispatch = useDispatch();
+  const {hideModal} = useModal();
   const checkToken = useCheckToken();
 
   // 등록 버튼 이벤트
@@ -36,7 +36,7 @@ const WriteModal = ({name}) => {
     if (!validation(contentValue, fromNameRef.current.value, popup)) return;
 
     mutation.mutate({name, content: contentValue, from: nickname, userId: userId, avatar: avatar});
-    dispatch(hideModal());
+    hideModal();
 
     popup('등록 되었습니다.', {}, AlertOption.SUCCESS, 800, null);
   };

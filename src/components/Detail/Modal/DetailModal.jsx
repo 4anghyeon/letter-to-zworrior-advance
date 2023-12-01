@@ -2,9 +2,8 @@ import React, {useEffect, useState} from 'react';
 import Modal from '../../Common/Modal';
 import LetterModalContent from '../../Common/LetterModalContent';
 import {AlertOption, TIME_FORMAT, validation} from '../../../shared/common';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {usePopup} from '../../../hooks/usePopup';
-import {hideModal} from '../../../redux/modules/modalSlice';
 import {createPortal} from 'react-dom';
 import Swal from 'sweetalert2';
 import moment from 'moment/moment';
@@ -14,14 +13,15 @@ import {WriterImg} from './styles/DetailModal.styled';
 import defaultAvatar from 'assets/img/dragonball.png';
 import {useMutation, useQueryClient} from 'react-query';
 import {removeLetterById, updateLetterById} from '../../../api/letters';
+import {useModal} from '../../../hooks/useModal';
 
 const DetailModal = ({selectedLetter}) => {
   const {userId} = useSelector(state => state.auth);
   const [isEdit, setIsEdit] = useState(false);
   const [content, setContent] = useState('');
   const checkToken = useCheckToken();
+  const {hideModal} = useModal();
 
-  const dispatch = useDispatch();
   const popup = usePopup();
   const queryClient = useQueryClient();
 
@@ -56,7 +56,7 @@ const DetailModal = ({selectedLetter}) => {
       if (result.isConfirmed) {
         mutationRemove.mutate(selectedLetter.id);
         popup('삭제 되었습니다.', {}, AlertOption.SUCCESS, 800, null);
-        dispatch(hideModal());
+        hideModal();
       }
     });
   };

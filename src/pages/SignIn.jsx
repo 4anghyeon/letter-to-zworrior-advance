@@ -6,41 +6,45 @@ import Swal from 'sweetalert2';
 import {useDispatch} from 'react-redux';
 import {login} from '../redux/modules/authSlice';
 
+const initialValidation = {
+  id: {
+    isValid: false,
+    isDuplicate: true,
+    message: '',
+  },
+  password: {
+    isValid: false,
+    message: '',
+  },
+  rePassword: {
+    isValid: false,
+    message: '',
+  },
+  nickname: {
+    isValid: false,
+    message: '',
+  },
+};
+
+const initialLoginError = {
+  id: {
+    isError: false,
+    message: '',
+  },
+  password: {
+    isError: false,
+    message: '',
+  },
+};
+
 const SignIn = () => {
   const [isLoginPage, setIsLoginPage] = useState(true);
   const [isValid, setIsValid] = useState(false);
 
   // form의 전체 validation 여부를 결정하는 state
-  const [validation, setValidation] = useState({
-    id: {
-      isValid: false,
-      isDuplicate: true,
-      message: '',
-    },
-    password: {
-      isValid: false,
-      message: '',
-    },
-    rePassword: {
-      isValid: false,
-      message: '',
-    },
-    nickname: {
-      isValid: false,
-      message: '',
-    },
-  });
+  const [validation, setValidation] = useState(initialValidation);
 
-  const [loginError, setLoginError] = useState({
-    id: {
-      isError: false,
-      message: '',
-    },
-    password: {
-      isError: false,
-      message: '',
-    },
-  });
+  const [loginError, setLoginError] = useState(initialLoginError);
 
   const signInIdRef = useRef(null);
   const signInPasswordRef = useRef(null);

@@ -4,16 +4,31 @@ import {Link, useLocation, useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {logout} from '../../redux/modules/authSlice';
 import ProfileModal from '../Home/ProfileModal';
-import {showModal} from '../../redux/modules/modalSlice';
 import defaultAvatar from 'assets/img/dragonball.png';
+import {useModal} from '../../hooks/useModal';
+import logoImage from 'assets/img/logo.png';
 
 const Header = () => {
-  const logoImage = require('assets/img/logo.png');
   const {isLogin, nickname, avatar} = useSelector(state => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {pathname} = useLocation();
   const {key} = useSelector(state => state.modal);
+  const {showModal} = useModal();
+
+  const onClickLogout = () => {
+    dispatch(logout());
+  };
+
+  const onClickOpenSetting = () => {
+    showModal({
+      key: 'setting',
+      styleOption: {
+        background: '#fff9db',
+      },
+      visible: true,
+    });
+  };
 
   // login 상태가 아닐 때 경로 이동을 막음
   useEffect(() => {
@@ -24,22 +39,6 @@ const Header = () => {
     if (isLogin) navigate('/');
     else navigate('/signin');
   }, [isLogin]);
-
-  const onClickLogout = () => {
-    dispatch(logout());
-  };
-
-  const onClickOpenSetting = () => {
-    dispatch(
-      showModal({
-        key: 'setting',
-        styleOption: {
-          background: '#fff9db',
-        },
-        visible: true,
-      }),
-    );
-  };
 
   return (
     <S.HeaderContainer>

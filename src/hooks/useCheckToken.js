@@ -1,13 +1,15 @@
 import {useDispatch} from 'react-redux';
 import {authApi} from '../axios/instance';
 import Swal from 'sweetalert2';
-import {hideModal} from '../redux/modules/modalSlice';
 import {logout} from '../redux/modules/authSlice';
+import {useModal} from './useModal';
 
 // 로그인 토큰이 유효한지 검사한다.
 // 모든 유저 액션마다 적용 되어야 한다.
 export const useCheckToken = () => {
   const dispatch = useDispatch();
+  const {hideModal} = useModal();
+
   return async () => {
     try {
       await authApi.get('/user', {
@@ -25,7 +27,7 @@ export const useCheckToken = () => {
           text: '유효 시간이 지나 로그아웃 되었습니다.',
           confirmButtonText: '닫기',
         }).then(() => {
-          dispatch(hideModal());
+          hideModal();
           dispatch(logout());
         });
       }

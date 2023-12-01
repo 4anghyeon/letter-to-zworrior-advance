@@ -9,7 +9,6 @@ export const findAllLetters = async () => {
 
 export const findAllLettersByName = async name => {
   const {data} = await letterApi.get(`/letters?to=${name}`);
-  console.log(data, name);
   return data;
 };
 

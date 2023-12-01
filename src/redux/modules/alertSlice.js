@@ -7,10 +7,10 @@ const alertSlice = createSlice({
   initialState,
   reducers: {
     showAlert: (state, action) => {
-      return {...state, ...action.payload, ...{visible: true}};
+      return {...state, ...action.payload, visible: true};
     },
     hideAlert: (state, action) => {
-      return {...state, ...action.payload, ...{visible: false}};
+      return {...state, ...action.payload, visible: false};
     },
   },
 });

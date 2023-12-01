@@ -3,13 +3,13 @@ import {useParams} from 'react-router-dom';
 import {warriors} from '../shared/data';
 import * as S from './styles/Detail.styled';
 import LetterRow from '../components/Detail/Letter/LetterRow';
-import {useDispatch, useSelector} from 'react-redux';
-import {showModal} from '../redux/modules/modalSlice';
+import {useSelector} from 'react-redux';
 import DetailModal from '../components/Detail/Modal/DetailModal';
 import WriteModal from '../components/Detail/Modal/WriteModal';
 import {useCheckToken} from '../hooks/useCheckToken';
 import {useQuery} from 'react-query';
 import {findAllLettersByName} from '../api/letters';
+import {useModal} from '../hooks/useModal';
 
 const Detail = () => {
   const params = useParams();
@@ -20,12 +20,26 @@ const Detail = () => {
 
   const [selectedLetter, setSelectedLetter] = useState({content: ''});
   const nameRef = useRef(null); // 캐릭터 이름
-  const dispatch = useDispatch();
   const checkToken = useCheckToken();
+  const {showModal} = useModal();
 
   const image = require(`assets/img/${enName.replace(/\s/g, '')}.png`);
   const filtered = letters ? letters.filter(letter => letter.to === name) : [];
   const timeoutIds = [];
+
+  // 메시지 쓰기 이벤트
+  const onClickWriteButton = async () => {
+    const isTokenAvailable = await checkToken();
+    if (isTokenAvailable) {
+      showModal({
+        key: 'write',
+        styleOption: {
+          background: '#fff9db',
+        },
+        visible: true,
+      });
+    }
+  };
 
   useEffect(() => {
     checkToken();
@@ -59,22 +73,6 @@ const Detail = () => {
       timeoutIds.forEach(tId => clearTimeout(tId));
     };
   }, []);
-
-  // 메시지 쓰기 이벤트
-  const onClickWriteButton = async () => {
-    const isTokenAvailable = await checkToken();
-    if (isTokenAvailable) {
-      dispatch(
-        showModal({
-          key: 'write',
-          styleOption: {
-            background: '#fff9db',
-          },
-          visible: true,
-        }),
-      );
-    }
-  };
 
   return (
     <S.Container>

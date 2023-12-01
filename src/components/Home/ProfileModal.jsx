@@ -9,6 +9,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import {logout, updateProfile} from '../../redux/modules/authSlice';
 import {hideModal} from '../../redux/modules/modalSlice';
+import {useModal} from '../../hooks/useModal';
 
 const ProfileModal = () => {
   const {nickname, avatar} = useSelector(state => state.auth);
@@ -16,6 +17,7 @@ const ProfileModal = () => {
   const [profileImg, setProfileImg] = useState(avatar === 'null' ? defaultAvatar : avatar);
   const nicknameRef = useRef(nickname);
   const dispatch = useDispatch();
+  const {hideModal} = useModal();
 
   const onClickEditButton = async () => {
     try {
@@ -60,7 +62,7 @@ const ProfileModal = () => {
         confirmButtonText: '닫기',
       }).then(() => {
         if (response.status === 401) {
-          dispatch(hideModal());
+          hideModal();
           dispatch(logout());
         }
       });
