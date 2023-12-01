@@ -3,6 +3,7 @@ import {toast} from 'react-toastify';
 
 const initialState = {
   isLogin: !!localStorage.getItem('accessToken'),
+  userId: localStorage.getItem('letter-app-userId'),
   nickname: localStorage.getItem('letter-app-nickname'),
   avatar: localStorage.getItem('letter-app-avatar'),
 };
@@ -17,6 +18,8 @@ const authSlice = createSlice({
       state.userId = action.payload.userId;
       state.nickname = action.payload.nickname;
       state.avatar = action.payload.avatar;
+
+      console.log(action.payload.avatar);
 
       localStorage.setItem('letter-app-userId', action.payload.userId);
       localStorage.setItem('letter-app-nickname', action.payload.nickname);
@@ -37,7 +40,7 @@ const authSlice = createSlice({
       localStorage.removeItem('accessToken');
       state.isLogin = false;
       state.nickname = '';
-      state.avatar = '';
+      state.avatar = null;
       state.userId = '';
       localStorage.removeItem('letter-app-userId');
       localStorage.removeItem('letter-app-nickname');

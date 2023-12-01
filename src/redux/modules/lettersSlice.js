@@ -25,13 +25,14 @@ export const __findAllLetterByName = createAsyncThunk('letters/findAllByName', a
 });
 
 export const __addLetter = createAsyncThunk('letters/addLetter', async arg => {
+  console.log(arg);
   await letterApi.post('/letters', {
     id: uuidv4(),
     to: arg.name,
     from: arg.from,
     content: arg.content,
     userId: arg.userId,
-    avatar: arg.avatar,
+    avatar: arg.avatar === 'null' ? null : arg.avatar,
     date: moment(),
   });
 });
