@@ -19,8 +19,6 @@ const authSlice = createSlice({
       state.nickname = action.payload.nickname;
       state.avatar = action.payload.avatar;
 
-      console.log(action.payload.avatar);
-
       localStorage.setItem('letter-app-userId', action.payload.userId);
       localStorage.setItem('letter-app-nickname', action.payload.nickname);
       localStorage.setItem('letter-app-avatar', action.payload.avatar);

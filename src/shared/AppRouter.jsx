@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
 import Home from '../pages/Home';
 import Layout from '../components/Layout/Layout';
 import Detail from '../pages/Detail';
@@ -13,6 +13,7 @@ const AppRouter = () => {
           <Route path="/" element={<Home />}></Route>
           <Route path="/signin" element={<SignIn />}></Route>
           <Route path="detail/:id" element={<Detail />}></Route>
+          <Route path="*" element={<Navigate replace to={'/'} />} />
         </Route>
       </Routes>
     </BrowserRouter>

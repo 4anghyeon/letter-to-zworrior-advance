@@ -35,15 +35,13 @@
       "userId": "bbbbbb",
       "avatar": null,
       "date": "2023-12-01T07:23:46.774Z"
-    },
+    }
+  ],
+  "user": [
     {
-      "id": "b8c0f606-3f9f-49da-9ef5-4b3e02f9eb3b",
-      "to": "베지터",
-      "from": "asdas2",
-      "content": "asdasdasd",
-      "userId": "aaaaaa",
+      "nickname": "a",
       "avatar": "https://react-jwt-avatar.s3.ap-northeast-2.amazonaws.com/23-12-01/3229719d-dc28-477d-b26b-efa41161c210.jpg",
-      "date": "2023-12-01T07:24:09.878Z"
+      "id": "aaaaaa"
     }
   ]
 }
