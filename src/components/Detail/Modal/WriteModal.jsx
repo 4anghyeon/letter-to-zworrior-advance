@@ -18,7 +18,6 @@ const WriteModal = ({name}) => {
   const mutation = useMutation(addLetter, {
     onSuccess: () => {
       queryClient.invalidateQueries('lettersByName');
-      console.log('성공 하였습니다.');
     },
   });
 

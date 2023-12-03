@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import {hideLoading, showLoading} from '../shared/common';
 
 export const ERROR_CONFLICT = 409;
 
@@ -10,6 +11,22 @@ export const letterApi = axios.create({
 export const authApi = axios.create({
   baseURL: process.env.REACT_APP_AUTH_SERVER,
 });
+
+letterApi.interceptors.request.use(config => {
+  showLoading(document.getElementById('main-content'));
+  return config;
+});
+
+letterApi.interceptors.response.use(
+  // 오류 응답을 내보내기 전 수행되는 함수
+  response => {
+    hideLoading(document.getElementById('main-content'));
+    return response;
+  },
+  error => {
+    return Promise.reject(error);
+  },
+);
 
 authApi.interceptors.response.use(
   // 오류 응답을 내보내기 전 수행되는 함수

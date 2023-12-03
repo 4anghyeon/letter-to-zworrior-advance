@@ -13,7 +13,7 @@ const Layout = () => {
       <Alert />
       <S.Main>
         <Header />
-        <S.Content>
+        <S.Content id="main-content">
           <Outlet />
         </S.Content>
         <Footer />

@@ -28,14 +28,12 @@ const DetailModal = ({selectedLetter}) => {
   const mutationRemove = useMutation(removeLetterById, {
     onSuccess: () => {
       queryClient.invalidateQueries('lettersByName');
-      console.log('성공 하였습니다.');
     },
   });
 
   const mutationUpdate = useMutation(updateLetterById, {
     onSuccess: () => {
       queryClient.invalidateQueries('lettersByName');
-      console.log('성공 하였습니다.');
     },
   });
 
