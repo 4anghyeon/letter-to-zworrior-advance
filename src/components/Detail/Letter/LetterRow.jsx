@@ -39,4 +39,4 @@ const LetterRow = ({letter, setSelectedLetter}) => {
   );
 };
 
-export default LetterRow;
+export default React.memo(LetterRow);

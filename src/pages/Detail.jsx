@@ -89,9 +89,8 @@ const Detail = () => {
             <p>첫 번째 응원 메시지를 남겨주세요!</p>
           </S.EmptyContainer>
         )}
-        {filtered.map(letter => (
-          <LetterRow key={letter.id} letter={letter} setSelectedLetter={setSelectedLetter} />
-        ))}
+        {filtered.length > 0 &&
+          filtered.map(letter => <LetterRow key={letter.id} letter={letter} setSelectedLetter={setSelectedLetter} />)}
         <S.WriteButton onClick={onClickWriteButton}>📝</S.WriteButton>
       </S.LetterListContainer>
       {key === 'write' && <WriteModal name={name} />}
@@ -99,4 +98,4 @@ const Detail = () => {
     </S.Container>
   );
 };
-export default Detail;
+export default React.memo(Detail);
