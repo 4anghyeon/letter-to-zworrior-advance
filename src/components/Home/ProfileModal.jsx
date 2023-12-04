@@ -17,7 +17,7 @@ import {useMutation, useQueryClient} from 'react-query';
 const ProfileModal = () => {
   const {userId, nickname, avatar} = useSelector(state => state.auth);
   const [imgFile, setImgFile] = useState(null);
-  const [profileImg, setProfileImg] = useState(avatar === 'null' ? defaultAvatar : avatar);
+  const [profileImg, setProfileImg] = useState(avatar === 'null' || avatar === null ? defaultAvatar : avatar);
   const nicknameRef = useRef(nickname);
   const dispatch = useDispatch();
   const {hideModal} = useModal();

@@ -48,7 +48,7 @@ const Header = () => {
       {isLogin && (
         <>
           <div>
-            <S.ProfileImg $img={avatar === 'null' ? defaultAvatar : avatar} />
+            <S.ProfileImg $img={avatar === 'null' || avatar === null ? defaultAvatar : avatar} />
             <span>{nickname}님 안녕하세요.</span>
             <S.Button $bgColor="darkgrey" onClick={onClickOpenSetting}>
               설정
