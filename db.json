@@ -1,65 +1,40 @@
 {
   "letters": [
     {
-      "id": "3c7e7c89-1c86-4159-ba90-8874b60d81e1",
-      "to": "피콜로",
-      "from": "bbbbbb",
-      "content": "zdzd",
-      "userId": "bbbbbb",
-      "avatar": null,
-      "date": "2023-12-01T07:07:54.431Z"
-    },
-    {
-      "id": "b8b1486d-9e6b-44d1-ae4c-19a4d21ab318",
-      "to": "손오반",
-      "from": "bbbbbb",
-      "content": "zzzzz",
-      "userId": "bbbbbb",
-      "avatar": null,
-      "date": "2023-12-01T07:19:40.045Z"
-    },
-    {
-      "id": "8632590e-1c07-4907-8ca0-31568335503b",
       "to": "손오공",
-      "from": "bbbbbb",
-      "content": "asdasasd",
-      "userId": "bbbbbb",
-      "avatar": null,
-      "date": "2023-12-01T07:23:30.267Z"
-    },
-    {
-      "id": "ca9f090d-0098-434b-bdee-68d28eb00b35",
-      "to": "손오공",
-      "from": "bbbbbb",
-      "content": "asdadasadas",
-      "userId": "bbbbbb",
-      "avatar": null,
-      "date": "2023-12-01T07:23:46.774Z"
-    },
-    {
-      "id": "8d962dca-8ec6-4c94-839f-3c4d7e85e446",
-      "to": "손오천",
-      "from": "a",
-      "content": "asdadasd1111",
+      "from": "3",
+      "content": "sdfsdfs",
       "userId": "aaaaaa",
-      "avatar": "https://react-jwt-avatar.s3.ap-northeast-2.amazonaws.com/23-12-01/3229719d-dc28-477d-b26b-efa41161c210.jpg",
-      "date": "2023-12-01T08:55:41.277Z"
+      "avatar": "https://react-jwt-avatar.s3.ap-northeast-2.amazonaws.com/23-12-04/76be316c-be32-4434-a908-4e4716b5e380.jpg",
+      "date": "2023-12-04T03:04:24.445Z",
+      "id": 1
     },
     {
       "to": "손오공",
-      "from": "a",
-      "content": "asdasd",
+      "from": "3",
+      "content": "asdasds",
       "userId": "aaaaaa",
-      "avatar": "https://react-jwt-avatar.s3.ap-northeast-2.amazonaws.com/23-12-01/3229719d-dc28-477d-b26b-efa41161c210.jpg",
-      "date": "2023-12-01T10:56:03.870Z",
-      "id": "hv396-d"
-    }
-  ],
-  "user": [
+      "avatar": "https://react-jwt-avatar.s3.ap-northeast-2.amazonaws.com/23-12-04/76be316c-be32-4434-a908-4e4716b5e380.jpg",
+      "date": "2023-12-04T03:10:42.222Z",
+      "id": 2
+    },
     {
-      "nickname": "a",
-      "avatar": "https://react-jwt-avatar.s3.ap-northeast-2.amazonaws.com/23-12-01/3229719d-dc28-477d-b26b-efa41161c210.jpg",
-      "id": "aaaaaa"
+      "to": "손오공",
+      "from": "3",
+      "content": "asdasdasds",
+      "userId": "aaaaaa",
+      "avatar": "https://react-jwt-avatar.s3.ap-northeast-2.amazonaws.com/23-12-04/76be316c-be32-4434-a908-4e4716b5e380.jpg",
+      "date": "2023-12-04T03:10:44.258Z",
+      "id": 3
+    },
+    {
+      "to": "손오공",
+      "from": "3",
+      "content": "asdfasddasfdas",
+      "userId": "aaaaaa",
+      "avatar": "https://react-jwt-avatar.s3.ap-northeast-2.amazonaws.com/23-12-04/76be316c-be32-4434-a908-4e4716b5e380.jpg",
+      "date": "2023-12-04T03:10:45.982Z",
+      "id": 4
     }
   ]
 }

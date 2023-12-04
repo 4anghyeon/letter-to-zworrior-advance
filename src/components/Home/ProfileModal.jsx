@@ -10,14 +10,25 @@ import Swal from 'sweetalert2';
 import {logout, updateProfile} from '../../redux/modules/authSlice';
 import {hideModal} from '../../redux/modules/modalSlice';
 import {useModal} from '../../hooks/useModal';
+import {letterApi} from '../../axios/instance';
+import {removeLetterById, updateAllLetters} from '../../api/letters';
+import {useMutation, useQueryClient} from 'react-query';
 
 const ProfileModal = () => {
-  const {nickname, avatar} = useSelector(state => state.auth);
+  const {userId, nickname, avatar} = useSelector(state => state.auth);
   const [imgFile, setImgFile] = useState(null);
   const [profileImg, setProfileImg] = useState(avatar === 'null' ? defaultAvatar : avatar);
   const nicknameRef = useRef(nickname);
   const dispatch = useDispatch();
   const {hideModal} = useModal();
+
+  const queryClient = useQueryClient();
+  const mutationUpdateAllLetters = useMutation(updateAllLetters, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('lettersByName');
+      queryClient.invalidateQueries('letters');
+    },
+  });
 
   const onClickEditButton = async () => {
     try {
@@ -46,6 +57,8 @@ const ProfileModal = () => {
           text: `계속해서 응원의 메시지를 남겨주세요`,
           confirmButtonText: '닫기',
         });
+
+        mutationUpdateAllLetters.mutate({userId: userId, nickname: result.data.nickname, avatar: result.data.avatar});
       }
     } catch (error) {
       const {response} = error;

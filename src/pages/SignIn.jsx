@@ -134,7 +134,7 @@ const SignIn = () => {
   const handleSignIn = async e => {
     e.preventDefault();
     try {
-      const result = await authApi.post('/login?expiresIn=1m', {
+      const result = await authApi.post('/login?expiresIn=1h', {
         id: signInIdRef.current.value,
         password: signInPasswordRef.current.value,
       });
