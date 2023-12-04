@@ -17,13 +17,14 @@ export const Container = styled.section`
   }
 
   & button {
+    ${({$isChanged}) => console.log($isChanged)}
     height: 60px;
     width: 150px;
     border: 0;
     border-radius: 10px;
     padding: 0 10px 0 10px;
     color: white;
-    background-color: #82c91e;
+    background-color: ${({$isChanged}) => ($isChanged ? '#82c91e' : 'darkgrey')};
     font-weight: bold;
     font-size: 1.2rem;
     cursor: pointer;

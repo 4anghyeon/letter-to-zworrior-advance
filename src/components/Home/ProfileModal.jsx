@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Modal from '../Common/Modal';
 import * as S from './styles/ProfileModal.styled';
 import {createPortal} from 'react-dom';
@@ -18,7 +18,8 @@ const ProfileModal = () => {
   const {userId, nickname, avatar} = useSelector(state => state.auth);
   const [imgFile, setImgFile] = useState(null);
   const [profileImg, setProfileImg] = useState(avatar === 'null' || avatar === null ? defaultAvatar : avatar);
-  const nicknameRef = useRef(nickname);
+  const [isChanged, setIsChanged] = useState(false);
+  const [editNickname, setEditNickname] = useState(nickname);
   const dispatch = useDispatch();
   const {hideModal} = useModal();
 
@@ -36,7 +37,7 @@ const ProfileModal = () => {
         `${process.env.REACT_APP_AUTH_SERVER}/profile`,
         {
           avatar: imgFile || avatar,
-          nickname: nicknameRef.current.value,
+          nickname: editNickname,
         },
         {
           headers: {
@@ -57,7 +58,8 @@ const ProfileModal = () => {
           text: `계속해서 응원의 메시지를 남겨주세요`,
           confirmButtonText: '닫기',
         });
-
+        setEditNickname(result.data.nickname);
+        setIsChanged(false);
         mutationUpdateAllLetters.mutate({userId: userId, nickname: result.data.nickname, avatar: result.data.avatar});
       }
     } catch (error) {
@@ -89,18 +91,33 @@ const ProfileModal = () => {
     setImgFile(files);
   };
 
+  useEffect(() => {
+    console.log(nickname, editNickname);
+    if (nickname !== editNickname) setIsChanged(true);
+    else if (profileImg !== avatar) setIsChanged(true);
+    else setIsChanged(false);
+    console.log('here');
+  }, [profileImg, editNickname]);
+
   return createPortal(
     <Modal>
-      <S.Container>
+      <S.Container $isChanged={isChanged}>
         <h1>프로필 수정</h1>
         <ImageBox $bgImage={profileImg} alt="프로필 이미지">
           <label htmlFor="file">업로드</label>
           <input type="file" id="file" accept=".jpg,.png,.gif,.webp" onChange={onFileChange} />
         </ImageBox>
         <div>
-          <input defaultValue={nickname} type="text" placeholder="닉네임을 입력하세요" ref={nicknameRef} />
+          <input
+            type="text"
+            placeholder="닉네임을 입력하세요"
+            defaultValue={nickname}
+            onChange={e => setEditNickname(e.target.value)}
+          />
         </div>
-        <button onClick={onClickEditButton}>수정</button>
+        <button disabled={!isChanged} onClick={onClickEditButton}>
+          수정
+        </button>
       </S.Container>
     </Modal>,
     document.getElementById('modal'),
