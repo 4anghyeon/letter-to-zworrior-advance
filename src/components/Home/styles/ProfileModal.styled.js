@@ -17,7 +17,6 @@ export const Container = styled.section`
   }
 
   & button {
-    ${({$isChanged}) => console.log($isChanged)}
     height: 60px;
     width: 150px;
     border: 0;

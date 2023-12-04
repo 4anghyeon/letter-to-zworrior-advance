@@ -24,6 +24,7 @@ letterApi.interceptors.response.use(
     return response;
   },
   error => {
+    hideLoading(document.getElementById('main-content'));
     return Promise.reject(error);
   },
 );

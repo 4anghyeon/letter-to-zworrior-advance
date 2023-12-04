@@ -92,11 +92,9 @@ const ProfileModal = () => {
   };
 
   useEffect(() => {
-    console.log(nickname, editNickname);
     if (nickname !== editNickname) setIsChanged(true);
     else if (profileImg !== avatar) setIsChanged(true);
     else setIsChanged(false);
-    console.log('here');
   }, [profileImg, editNickname]);
 
   return createPortal(
