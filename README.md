@@ -2,14 +2,13 @@
 좋아하는 아티스트, 캐릭터에게 응원 메시지를 작성하는 앱을 만든다.
 
 다음과 같이 세 가지 branch가 존재한다.
-- Props Drilling한 branch
-- Context를 사용한 branch
-- Redux를 사용한 branch
+- redux-thunk
+- react-query
 
 ## Deployment
 배포된 사이트는 아래에서 확인이 가능하다. Redux를 사용한 버전으로 배포 되었다.
 
-https://letter-to-zworrior.vercel.app/
+https://letter-to-zworrior-advance.vercel.app/
 
 
 
