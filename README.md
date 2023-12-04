@@ -6,7 +6,7 @@
 - react-query
 
 ## Deployment
-배포된 사이트는 아래에서 확인이 가능하다. Redux를 사용한 버전으로 배포 되었다.
+배포된 사이트는 아래에서 확인이 가능하다. react-query를 사용한 버전으로 배포 되었다.
 
 https://letter-to-zworrior-advance.vercel.app/
 
@@ -22,6 +22,25 @@ npm run start
 ```
 
 ## 화면 및 기능
+### 로그인
+![main.png](public%2Fhelp%2Flogin.png)
+- 모든 페이지는 로그인을 해야 접근할 수 있다.
+- 테스트 아이디 aaaaaa / aaaaaa
+
+### 회원가입
+![signup.png](public%2Fhelp%2Fsignup.png)
+- placeholder에 표시된 조건을 지켜 회원가입을 할 수 있다.
+
+### 프로필 수정
+![profile.png](public%2Fhelp%2Fprofile.png)
+- 현재 유저의 프로필을 수정할 수 있다.
+- 아바타, 닉네임을 수정할 경우 등록된 게시글의 모든 정보가 바뀐다.
+
+### 유효시간
+![exp.png](public%2Fhelp%2Fexp.png)
+- 토큰 만료 시간이 지나면 다음 동작을 할 경우 로그인 화면으로 이동한다.
+- 토큰 만료 시간은 1분이다.
+
 ### 메인 화면
 ![main.png](public%2Fhelp%2Fmain.png)
 
